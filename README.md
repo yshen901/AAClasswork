@@ -1,2 +1,2 @@
 # app-academy
-Daily Projects, Homeworks, and Notets
+Daily Projects, Homeworks, and Notes
