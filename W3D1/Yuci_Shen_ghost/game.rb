@@ -2,11 +2,8 @@ require_relative 'player'
 class Game
     attr_reader :losses
     
-    #init. an array of player instances based off of an array of names
-    #init. a hash counter that counts the number of losses for each player
-    #init. current and previous indices that correspond to players in the array
-    #init. fragment holding the guessed word
-    #init. a dictionary by reading in words from a file, then mapping to a Hash
+    #I used previous_idx to find the winner of a round/game as we go to next
+    #player before we check winner
     def initialize(names)
         @players = []
         @losses = {}
@@ -15,82 +12,92 @@ class Game
             @losses[@players[i]] = 0
         end
 
-        @current_index = 0
-        @previous_idx = -1
         @fragment = ""
+        @current_idx = 0
+        @previous_idx = -1
 
-        file = File.open('dictionary.txt')
-        words = file.readlines.map(&:chomp) 
-        file.close
-
-        @dictionary = Hash.new(false)
+        @dictionary = Hash.new (false)
+        words = File.readlines('dictionary.txt').map(&:chomp)
         words.each { |word| @dictionary[word] = true }
     end
 
-    #calls take_turn to make the current player make a move
-    #if the move results in a win, increment other players' losses by 1 and reset fragment
-    #move to next player
-    def play_round
-        self.take_turn?(@players[@current_index])
-        if @dictionary[fragment]
-            fragment = ""
-            @players.each do |player|
-                if player != @players[@current_index]
-                    self.losses[player] += 1
-                end
-            end
-        end
-        self.next_player!
+    def run
+        play_round until game_won?
+        display_standings
+        puts "#{@players[@previous_idx]} wins!"
     end
 
-    #keeps calling player.get_move until we get a valid input
-    #then add the valid input to fragment
-    def take_turn(player)
+    def play_round
+        @fragment = ""
+        until round_won?
+            take_turn
+            next_player!
+        end
+
+        record_losses
+        display_standings
+        puts "#{@players[@previous_idx]} wins this round!"
+        sleep(3)
+    end
+
+    def take_turn
+        player = @players[@current_idx]
+
         move = nil 
         until move
+            display_turn_information
             input = player.get_move
             valid_play?(input) ? move = input : player.alert_invalid_guess
+            sleep(1)
         end
-        fragment << move
+
+        @fragment << move
     end
 
-    #checks if an input is valid, in other words:
-    #   1. is it an alphabet character
-    #   2. can fragment still grow into a valid word if we added the input
+    def record_losses
+        @players.each do |player|
+            @losses[player] += 1 unless player == @players[@previous_idx]
+        end
+    end
+
+    def round_won?
+        @dictionary[@fragment]
+    end
+
+    def game_won?
+        @losses.one? { |_,num| num < 5 }
+    end
+
     def valid_play?(input)
         alphabet = ('a'..'z').to_a
         return false if !alphabet.include?(input)
 
-        words = @dictionary.keys
-        words.any? { |word| word.start_with?(@fragment + input) }
+        @dictionary.any? { |word,_| word.start_with?(@fragment + input) }
     end
 
-    #updates the current and previous player indices
-    #   increment current_index until it lands on a player with less than 5 losses
     def next_player!
-        @previous_idx = @current_index
-        @current_index = (@current_index + 1) % @players.length
+        @previous_idx = @current_idx
+        @current_idx = (@current_idx + 1) % @players.length
 
-        until self.losses[@players[@current_index]] < 5
-            @current_index = (@current_index + 1) % @players.length
+        until self.losses[@players[@current_idx]] < 5
+            @current_idx = (@current_idx + 1) % @players.length
         end
     end
 
-    #returns the "GHOST" substring representing a player's losses
-    def record(player)
-        "GHOST"[0...self.losses[player]]
+    def display_turn_information
+        system("clear")
+        puts "So far we have: #{@fragment}"
+        puts "It is #{@players[@current_idx].to_s}'s turn!'"
     end
 
-    #prints out each player's name and "GHOST" substring
     def display_standings
+        system("clear")
         self.losses.each do |player, loss| 
-            puts "#{player}: #{self.record(player)}"
+            puts "#{player}: #{self.losses_to_ghost(player)}"
         end
     end
 
-    #keeps calling play_round until only one player has less than 5 losses
-    def run 
-        ended = @losses.values.one? { |value| value < 5 }
-        self.play_round until ended
+    def losses_to_ghost(player)
+        "GHOST"[0...self.losses[player]]
     end
 end
