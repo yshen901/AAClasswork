@@ -51,6 +51,12 @@ class PolyTreeNode
         end 
         nil
     end
+
+    def inspect
+        child_array = @children.map { |child| child.value }
+        @parent ? (parent_pos = @parent.value) : (parent_pos = nil)
+        { value:@value, parent:parent_pos, children:child_array }
+    end
     
     public
     attr_reader :value, :parent
