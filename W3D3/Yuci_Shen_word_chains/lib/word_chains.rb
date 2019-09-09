@@ -16,10 +16,9 @@ class WordChainer
           new_word = word.dup
           new_word[i] = new_letter
           words << new_word if @dictionary.include?(new_word)
-        ends
+        end
       end
     end
     words
   end
-
 end
