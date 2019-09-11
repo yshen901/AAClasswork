@@ -1,4 +1,4 @@
-require_relative "./Pieces.rb"
+require_relative "./pieces.rb"
 class Board
 
   attr_reader :rows
@@ -10,14 +10,17 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    raise "No piece at start position" if self[start_pos].nil?
-    raise "Invalid end position" unless self.valid_end?(end_pos)
+    raise "No piece at start position" if self[start_pos].empty?
+    unless self[start_pos].valid_moves.include?(end_pos)
+      raise "Invalid end position"
+    end
 
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
+    self[end_pos].position = end_pos
+    self[start_pos] = NullPiece.instance
   end
 
-  def valid_end?(position)
-    self[position] == nil
+  def valid_pos?(end_pos)
   end
 
   # gets the piece at the position
@@ -108,3 +111,35 @@ class Board
     ]
   end
 end
+
+def render(board)
+  print "  0  1  2  3  4  5  6  7"
+  puts
+  board.rows.each_with_index do |row, i| 
+    print i.to_s + " "
+    row.each do |spot|
+      print spot.to_s + " "
+    end
+    puts
+  end
+  nil
+end
+
+# board = Board.new
+
+# rook_pos = [0,0]
+# queen_pos = [0,3]
+# bishop_pos = [0,2]
+# king_pos = [0,4]
+# knight_pos = [0,1]
+# pawn_pos = [1,1]
+# p board[knight_pos].valid_moves
+# p board[rook_pos].valid_moves
+# p board[queen_pos].valid_moves
+# p board[bishop_pos].valid_moves
+# p board[king_pos].valid_moves
+# p board[pawn_pos].valid_moves
+
+# board.move_piece([1,3], [3,3])
+# render(board)
+
