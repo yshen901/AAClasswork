@@ -76,8 +76,21 @@ class Cursor
   end
 
   def handle_key(key)
+    if key == :return || key == :space
+      return @cursor_pos
+    elsif [:left, :right, :up, :down].include?(key)
+      update_pos(MOVES[key])
+      return nil
+    elsif :ctrl_c
+      Process.exit(0)
+    else
+      puts "WTF"
+    end
   end
 
   def update_pos(diff)
+    y = @cursor_pos[0] + diff[0]
+    x = @cursor_pos[1] + diff[1]
+    @cursor_pos = [y,x] if @board.valid_pos?([y,x])
   end
 end

@@ -23,8 +23,8 @@ module Slideable
   end
 
   private
-  HORIZONTAL_DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]]
-  DIAGONAL_DIRS = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
+  HORIZONTAL_DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]].freeze
+  DIAGONAL_DIRS = [[-1, -1], [-1, 1], [1, -1], [1, 1]].freeze
 
   #is overwritten - each piece has their own version that outputs directions
   def move_dirs; end
@@ -93,7 +93,7 @@ class Piece
   end
 
   def valid_moves
-    moves
+   
   end
 
   def on_board?(position)
@@ -248,7 +248,7 @@ class NullPiece < Piece
   def moves; end
 
   def symbol
-    :"--"
+    :"  "
   end
 end
 
