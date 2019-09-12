@@ -1,0 +1,7 @@
+Rules:
+   1. Each player is dealt five cards.
+   2. Players bet; each player may fold, see the current bet, or raise.
+   3. In turn, each player can choose to discard up to three cards.
+         -> They are dealt new cards from the deck to replace their old cards.
+   4. Players bet again.
+   5. If any players do not fold, then players reveal their hands; strongest hand wins the pot.
