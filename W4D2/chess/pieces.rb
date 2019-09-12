@@ -93,7 +93,7 @@ class Piece
   end
 
   def valid_moves
-   
+    moves
   end
 
   def on_board?(position)
@@ -102,7 +102,7 @@ class Piece
   end
 
   def enemy_piece?(spot)
-    @board[spot].color != self.color
+    !@board[spot].is_a?(NullPiece) && @board[spot].color != self.color
   end
 
   def empty_spot?(spot)
