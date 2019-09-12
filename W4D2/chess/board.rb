@@ -16,7 +16,7 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    unless self[start_pos].valid_moves.include?(end_pos)
+    unless self[start_pos].moves.include?(end_pos)
       raise WrongEndError, "Invalid end position"
     end
 
@@ -40,8 +40,9 @@ class Board
     king_pos = find_king(color)
     @rows.each do |row|
       row.each do |spot|
+        next if spot.is_a?(NullPiece)
         if spot.color != color
-          return true if spot.valid_moves.include?(king_pos)
+          return true if spot.moves.include?(king_pos)
         end
       end
     end
@@ -52,20 +53,33 @@ class Board
   # are covered by an opponent piece.
   def checkmate?(color)
     if in_check?(color)
-      all_valid_moves = []
+      all_opponent_moves = []
       @rows.each do |row|
         row.each do |spot|
-          all_valid_moves.concat(spot.valid_moves) if spot.color != color
+          all_opponent_moves.concat(spot.moves) if spot.color != color
         end
       end
-
+      #check if the king can move
       king_pos = find_king
-      valid_king_moves = self[king_pos].valid_moves
-      valid_king_moves.all? do |king_move|
-        all_valid_moves.include?(king_move)
+      valid_king_moves = self[king_pos].moves
+      king_can_move = valid_king_moves.all? do |king_move|
+        all_opponent_moves.include?(king_move)
       end
+      return false if king_can_move
+
+      #check if own pieces can save king
+      @rows.each do |row|
+        row.each do |spot|
+          return false if spot.color == color && !spot.valid_moves.empty?
+        end
+      end
+      return true
+
     end
+    false
   end
+
+
 
   def find_king(color)
     #return position of king piece of that color
@@ -176,13 +190,15 @@ end
 # king_pos = [0,4]
 # knight_pos = [0,1]
 # pawn_pos = [1,1]
-# p board[knight_pos].valid_moves
-# p board[rook_pos].valid_moves
-# p board[queen_pos].valid_moves
-# p board[bishop_pos].valid_moves
-# p board[king_pos].valid_moves
-# p board[pawn_pos].valid_moves
+# p board[knight_pos].moves
+# p board[rook_pos].moves
+# p board[queen_pos].moves
+# p board[bishop_pos].moves
+# p board[king_pos].moves
+# p board[pawn_pos].moves
 
 # board.move_piece([1,3], [3,3])
 # render(board)
+
+
 

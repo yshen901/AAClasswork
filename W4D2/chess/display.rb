@@ -16,7 +16,7 @@ class Display
     print "     0   1   2   3   4   5   6   7  "
     puts
     @board.rows.each_with_index do |row, i| 
-      print " #{i.to_s} "
+      print " #{i} "
       row.each_with_index do |spot, j|
         background_color = :black
         piece_color = :light_black
@@ -44,6 +44,21 @@ board = Board.new
 display = Display.new(board)
 loop do
   display.render
+  if board.in_check?(:W)
+    puts "White king is in check"
+    if board.checkmate?(:W)
+      #set game over
+      puts "Checkmate, black player wins"
+    end
+  elsif board.in_check?(:B)
+    puts "Black king is in check"
+    if board.checkmate?(:B)
+      #set game over
+      puts "Checkmate, white player wins"
+    end
+  end
+
+
   start_pos = display.cursor.get_input
   if start_pos != nil
     begin
