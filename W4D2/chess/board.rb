@@ -1,4 +1,10 @@
 require_relative "./pieces.rb"
+require "set"
+
+class WrongStartError < StandardError; end
+
+class WrongEndError < StandardError; end
+
 class Board
 
   attr_reader :rows
@@ -10,9 +16,8 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    raise "No piece at start position" if self[start_pos].empty?
     unless self[start_pos].valid_moves.include?(end_pos)
-      raise "Invalid end position"
+      raise WrongEndError, "Invalid end position"
     end
 
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
@@ -20,8 +25,59 @@ class Board
     self[start_pos] = NullPiece.instance
   end
 
-  def valid_pos?(end_pos)
+  def valid_start?(start_pos)
+    raise WrongStartError, "No piece at start position" if self[start_pos].empty?
   end
+
+  def valid_pos?(end_pos)
+    y, x = end_pos
+    x.between?(0, 7) && y.between?(0, 7)
+  end
+
+  # loop through all of opponent's valid moves, and see if king is covered
+  def in_check?(color)
+
+    king_pos = find_king(color)
+    @rows.each do |row|
+      row.each do |spot|
+        if spot.color != color
+          return true if spot.valid_moves.include?(king_pos)
+        end
+      end
+    end
+    false
+  end
+
+  # loop through all of the king's valid moves, and see if all of those moves
+  # are covered by an opponent piece.
+  def checkmate?(color)
+    if in_check?(color)
+      all_valid_moves = []
+      @rows.each do |row|
+        row.each do |spot|
+          all_valid_moves.concat(spot.valid_moves) if spot.color != color
+        end
+      end
+
+      king_pos = find_king
+      valid_king_moves = self[king_pos].valid_moves
+      valid_king_moves.all? do |king_move|
+        all_valid_moves.include?(king_move)
+      end
+    end
+  end
+
+  def find_king(color)
+    #return position of king piece of that color
+    @rows.each do |row|
+      row.each do |spot|
+        return spot.position if spot.is_a?(King) && spot.color == color
+      end
+    end
+    raise "Where did the king go? Dafeq?"
+  end
+
+
 
   # gets the piece at the position
   def [](position)
@@ -110,19 +166,6 @@ class Board
       Rook.new(:W, [7,7], self)]
     ]
   end
-end
-
-def render(board)
-  print "  0  1  2  3  4  5  6  7"
-  puts
-  board.rows.each_with_index do |row, i| 
-    print i.to_s + " "
-    row.each do |spot|
-      print spot.to_s + " "
-    end
-    puts
-  end
-  nil
 end
 
 # board = Board.new
