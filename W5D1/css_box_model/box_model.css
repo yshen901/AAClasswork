@@ -1,0 +1,31 @@
+div {
+  height: 200px;
+  width: 200px;
+  padding: 50px;
+  border: 5px solid black; /*also use dashed*/
+  box-sizing: border-box; /*forces box, padding, and border to add up to 200*/
+}
+
+#first-div {
+  background-color: #39cccc;
+}
+
+#second-div {
+  background-color: #ff4136;
+}
+
+#third-div {
+  background-color: #addef2;
+  min-height: 400px;
+}
+
+#fourth-div {
+  height: auto; /*ignores the div stuff*/
+  width: auto;
+  background-color: rgb(179, 179, 179);
+  min-height: 10px;
+}
+
+p {
+  background-color: #7fdbff;
+}
