@@ -16,6 +16,7 @@ class Employee
 end
 
 class Manager < Employee
+  attr_reader :underlings
 
   def initialize(name, title, salary, boss)
     super
