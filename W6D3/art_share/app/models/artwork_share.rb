@@ -16,7 +16,5 @@ class ArtworkShare < ApplicationRecord
     foreign_key: :viewer_id,
     class_name: :User
 
-  belongs_to :artwork,
-    foreign_key: :artwork_id,
-    class_name: :Artwork
+  belongs_to :artwork #don't need foreign key or class name if name is same as association name
 end

@@ -13,6 +13,9 @@
 class Artwork < ApplicationRecord
   validates :title, :image_url, :artist_id, presence: true
 
+  has_many :comments,
+    dependent: :destroy
+
   belongs_to :artist,
     foreign_key: :artist_id,
     class_name: :User 
@@ -25,4 +28,11 @@ class Artwork < ApplicationRecord
   has_many :shared_viewers,
     through: :shares,
     source: :viewer
+
+  has_many :likes,
+    as: :likeable
+  
+  has_many :likers,
+    through: :likes,
+    source: :user
 end
