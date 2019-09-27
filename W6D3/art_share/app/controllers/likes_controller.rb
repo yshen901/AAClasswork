@@ -4,7 +4,7 @@ class LikesController < ApplicationController
       likes = Like.where(user_id: params[:user_id])
       # artworks = Artwork.where()
     elsif params.has_key?(:artwork_id)
-      likes = User.where(id: params[:artwork_id])
+      likes = Artwork.find(params[:artwork_id]).likers
     elsif params.has_key?(:comment_id)
 
     else
