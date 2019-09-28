@@ -1,0 +1,39 @@
+<form action="<%= cat_url(@cat) %>" method="post">
+  <input type="hidden" name="_method" value="patch"> 
+  <label for = "name"> Name:
+    <input type="text" id="name" name="cat[name]" value="<%= @cat.name %>">
+  </label>
+  <br>
+  <br>
+
+  <label for="sex">Sex:
+    M <input type="radio" id="sex" name="cat[sex]" value="M" <%= @cat.sex == "M" ? "checked" : "" %>> <!---ternary logic to select the original--->
+    F <input type="radio" id="sex" name="cat[sex]" value="F" <%= @cat.sex == "F" ? "checked" : "" %>>
+  </label>
+  <br>
+  <br>
+
+  <label for="color">Color:
+    <select id="color", name="cat[color]"> 
+        <option disabled <%= @cat.color ? "" : "selected" %>> -- Please Choose a Color -- </option>
+      <% Cat::VALID_COLORS.each do |color| %> 
+        <option <%= @cat.color == color ? "selected" : "" %> value="<%=color%>"> <%=color%> </option>   
+      <% end %>
+    </select>
+  </label>
+  <br>
+  <br>
+
+  <label for="birth_date">Birth date:  
+    <input type="date" id="birth_date" name="cat[birth_date]" value=<%=@cat.birth_date%>> <!--- Might not work ---> 
+  </label>
+  <br> 
+  <br> 
+
+  <label for="description">Description:
+    <input type="textarea" id="description" name="cat[description]" value=<%=@cat.description%>>
+  </label>
+ 
+ 
+
+</form>
