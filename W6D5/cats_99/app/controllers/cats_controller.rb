@@ -21,7 +21,38 @@ class CatsController < ApplicationController
 
   def edit 
     @cat = Cat.find_by(id: params[:id]) 
+    # debugger
     render :edit
+  end
+
+  def create
+    @cat = Cat.create(cat_params)
+    if @cat.save
+      redirect_to cats_url
+    else
+      render json: @cat.errors.full_messages, status: 402
+    end
+  end
+
+  def destroy
+    @cat = Cat.find_by(id: params[:id])
+    if @cat
+      @cat.delete
+      redirect_to cats_url
+    else
+      render json: @cat.errors.full_messages, status: 418
+    end
+
+  end
+
+  def update
+    @cat = Cat.find_by(id: params[:id])
+    if @cat
+      @cat.update(cat_params)
+      redirect_to cats_url
+    else
+      render json: @cat.errors.full_messages, status: 402
+    end
   end
 
   private
