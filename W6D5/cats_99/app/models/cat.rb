@@ -5,7 +5,16 @@ class Cat < ApplicationRecord
   validates :sex, inclusion: { in: ['M', 'F'], message: "%{value} is not a valid sex" }
   validates :color, inclusion: { in: VALID_COLORS, message: "%{value} is not a valid color" }
 
-   
+
+  # Asssocations
+  has_many :rental_requests, 
+    foreign_key: :cat_id,
+    class_name: :CatRentalRequest,
+    dependent: :destroy
+
+
+
+   # Methods
   def age 
     # select_date(Time.now, order: [:year, :month, :date], date_separator: '/')
     # Time.now + 4.days
