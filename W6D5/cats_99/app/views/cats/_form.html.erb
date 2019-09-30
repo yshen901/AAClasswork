@@ -1,0 +1,62 @@
+# Our goal: make this modular.
+<!--- 
+# if action = A, 
+#   url = B 
+# else  
+# url = C
+-->
+<% if type == :edit %> 
+  <!--- Update Cat for edit.html.erb -->
+  <% action_url = cat_url(cat) %>
+  <% button_message = "Submit Changes" %> 
+<% elsif type == :new %>
+  <!--- New Cat for new.html.erb -->
+  <% action_url = cats_url %> 
+  <% button_message = "Create Cat" %> 
+<% else %>
+  render json: "How did you get here?"
+<% end %>
+
+
+<form action="<%=action_url%>" method="post">
+  <% if type == :edit %>
+    <input type="hidden" name="_method" value="patch"> 
+  <% end %>
+
+  <label for = "name"> Name:
+    <input type="text" id="name" name="cat[name]" value="<%= cat.name %>">
+  </label>
+  <br>
+  <br>
+
+  <label for="sex">Sex:
+    M <input type="radio" id="sex" name="cat[sex]" value="M" <%= cat.sex == "M" ? "checked" : "" %>> <!---ternary logic to select the original--->
+    F <input type="radio" id="sex" name="cat[sex]" value="F" <%= cat.sex == "F" ? "checked" : "" %>>
+  </label>
+  <br>
+  <br>
+
+  <label for="color">Color:
+    <select id="color", name="cat[color]"> 
+        <option disabled <%= cat.color ? "" : "selected" %>> -- Please Choose a Color -- </option>
+      <% Cat::VALID_COLORS.each do |color| %> 
+        <option <%= cat.color == color ? "selected" : "" %> value="<%=color%>"> <%=color%> </option>   
+      <% end %>
+    </select>
+  </label>
+  <br>
+  <br>
+
+  <label for="birth_date">Birth date:  
+    <input type="date" id="birth_date" name="cat[birth_date]" value=<%=cat.birth_date%>> <!--- Might not work ---> 
+  </label>
+  <br> 
+  <br> 
+
+  <label for="description">Description:
+    <textarea name = "cat[description]"><%=cat.description%></textarea>
+  </label>
+ 
+  <input type="submit" value="<%=button_message%>">
+
+</form>
