@@ -1,0 +1,14 @@
+<form action="<%=users_url%>" method="post"> 
+  <label> 
+    Username
+    <input type="text" name="user[user_name]" value="">
+  </label>
+  <br>
+
+  <label> 
+    Password
+    <input type="password" name="user[password]"> <!--- later convert to digest? Removing `value=""` to test default --->
+  </label>
+  <!---Submit Plz--->
+  <input type="submit" name="" value="Log In">
+</form> 
