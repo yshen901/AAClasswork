@@ -1,0 +1,22 @@
+<h1> List of all musics </h1>
+
+<ol>
+  <% @musics.each do |music| %>
+    <li> <%= music.title %> </li>
+  <% end %>
+</ol>
+
+<br>
+
+<ul>
+  <% @musics.each do |music| %>
+    <li> <%= music.title %>, by: <%= music.author %> </li>
+  <% end %>
+</ul>
+
+<!--Make a link to go back to currently logged in user
+      1) Use the helper method to get the current user
+             then call the getter method for id on that current user
+      2) Use the id to make a link to the user profile -->
+<% user_id = current_user.id %>
+<a href="<%= user_url(user_id) %>">User Profile</a>
