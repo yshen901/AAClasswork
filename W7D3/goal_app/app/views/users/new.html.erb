@@ -1,0 +1,34 @@
+<h1> Welcome, sign up here </h1>
+
+<!-- A form gets info, then upon clicking the button redirects to
+     another HTTP request. The action and method indicate what this 
+     request is in this case, the action/method is to for a POST request -->
+     
+<form action="<%= users_url %>" method="post">
+  <!-- <input type="hidden" name="_method" value="patch">
+       MUST DO THIS FOR EDIT FORMS, AND PUT AT THE TOP (TO THIS THIS FIRST)
+          html is shitty, and doesn't let you make a patch form, only post forms
+          so to work around that, we make a hidden input that will change the method
+          to patch. A hidden type input is run unconditionally. -->
+  
+  <!-- for/id is to simply tie together a label and the labeled element
+       value is what's initially in the text-box. the user can change this 
+       name is the key that the value will be paired with when you click the submit button
+
+       i.e. when you click submit, all values are paired with their names, put into
+            a params hash, then sent out as a post request.
+
+            so if you type in value for this textbox as yuci, the params will be
+            { id: 1, user: { ..., username: "yuci", ...} }
+            ...this params will then be sent to the server as part of the reqest
+  -->
+
+  <label for="username">Username :</label>
+  <input type="text" id="username" name="user[username]" value=<%= @user.username %>> <!--value can also be ""-->
+
+  <label>Password :
+    <input type="password" name="user[password]" value="">
+  </label>
+
+  <input type="submit" value="Sign Up">
+</form>

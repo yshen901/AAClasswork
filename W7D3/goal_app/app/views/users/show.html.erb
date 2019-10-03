@@ -1,0 +1,12 @@
+
+<!-- An erb tag with an "=" returns something...in this case a string
+      representing the username, that is displayed with the list tag -->
+<h2> <%= flash[:success] %> </h2>
+<h1> Welcome back <%= @user.username %> </h1>
+
+<!--If we ever want to trigger the create/update/destroy actions
+    We must create a form with the corresponding action/method-->
+<form action="<%= session_url %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Log Out">
+</form>
