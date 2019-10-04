@@ -1,0 +1,39 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.left-nav > ul,
+.right-nav > ul {
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+}
+
+.left-nav > ul > li {
+  padding: 2px;
+}
+
+.right-nav > ul > li {
+ padding: 2px;
+}
+
+//why is this not overriding?
+.right-nav > ul > li:last-of-type{
+  background-color: white;
+}
+
+.left-nav > ul > li:hover,
+.right-nav > ul > li:last-of-type:hover {
+  background-color: $light-gray;
+}
+
+.left-nav span {
+  text-transform: uppercase;
+}
+
+
+.right-nav i {
+  font-size: 16px;
+}

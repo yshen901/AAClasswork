@@ -1,0 +1,20 @@
+.sections-nav ul {
+  display: flex;
+  align-content: row;
+  justify-content: center;
+}
+
+.sections-nav li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.sections-nav a:hover {
+  background-color: $light-gray
+}
+
+.sections-nav {
+  margin-top: 5px; //margin is outside of border
+  padding-bottom: 5px; //padding is inside of border
+  border-bottom: 1px solid $light-gray;
+}
