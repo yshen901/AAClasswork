@@ -1,0 +1,24 @@
+/* PHASE 3: Layout */
+
+.content {
+  display: flex;
+  /* flex-direction: row-reverse; */
+}
+
+.content-main, .content-sidebar {
+  min-height: 200px;
+  padding: 20px;
+}
+
+.content-main {
+  float: left;
+  border-left: 1px solid gray;
+  background-color: black;
+  width: 75%;
+}
+
+.content-sidebar {
+  float: right;
+  background-color: white;
+  width: 25%;
+}
