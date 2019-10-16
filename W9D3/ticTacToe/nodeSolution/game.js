@@ -16,6 +16,10 @@ class Game {
     this.swapTurn();
   }
 
+  getMark(pos) {
+    return this.board.grid[pos[0]][pos[1]];
+  }
+
   promptMove(reader, callback) {
     const game = this;
 

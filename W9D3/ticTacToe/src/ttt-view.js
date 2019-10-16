@@ -25,27 +25,33 @@ class View {
     });
   }
 
+  unbindEvents(){
+    $(".game-board").unbind();
+  }
+
   makeMove($square) {
     const pos = [$square.attr('id') % 3, Math.floor($square.attr('id') / 3)];
-    $("<p>" + this.game.board.getMark(pos) + "</p>").appendTo($square);
-    $square.addClass('toggled');
+    $square.addClass(this.game.getMark(pos));
   }
 
   endGame() {
+    this.unbindEvents();
     this.$el.append("<h3>You win, " + this.game.winner() + "!</h3>");
-    let squares = Array.from($('.ttt-square'));
-
+    
     let pos, mark, $square;
     let winner = this.game.winner();
-    for(let i = 0; i < squares.length; i++){
-      $square = $(squares[i]);
-      pos = [squares[i].id % 3, Math.floor(squares[i].id / 3)];
-      mark = this.game.board.getMark(pos);
+    let squares = Array.from($('.ttt-square'));
 
-      if (mark === winner) 
+    for(let i = 0; i < squares.length; i++){
+      pos = [squares[i].id % 3, Math.floor(squares[i].id / 3)];
+      mark = this.game.getMark(pos); //returns the mark from the array representation of the board
+      $square = $(squares[i]);
+
+      if (mark === winner)
         $square.addClass('winner');
       else
         $square.addClass('loser');
+
       $square.removeClass('hoverable');
     }
   }

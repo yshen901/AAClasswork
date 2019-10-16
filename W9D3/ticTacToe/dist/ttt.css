@@ -46,7 +46,15 @@ h3 {
     font-family: sans-serif;
 }
 
-.toggled {
+.x::after{
+    content: "x";
+}
+
+.o::after{
+    content: "o";
+}
+
+.x, .o {
     background-color: white;
 }
 
