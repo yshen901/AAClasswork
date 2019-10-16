@@ -1,4 +1,5 @@
 const MovingObject = require("./moving_object.js");
+const Ship = require("./ship.js");
 const Util = require("./util.js");
 
 
@@ -17,8 +18,15 @@ function Asteroid(options) {
   MovingObject.call(this, super_options);
 }
 
-
-
 Util.inherits(Asteroid, MovingObject);
+
+Asteroid.prototype.collideWith = function(otherObject) {
+  if (otherObject instanceof Ship) {
+    otherObject.relocate();
+  } else if (otherObject instanceof Asteroid){
+    this.game.remove(otherObject);
+    this.game.remove(this);    
+  }
+};
 
 module.exports = Asteroid;
