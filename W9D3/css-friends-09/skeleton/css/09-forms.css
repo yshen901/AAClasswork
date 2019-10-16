@@ -1,0 +1,32 @@
+/* PHASE 9: Forms */
+
+.new-post-form {
+    background-color: lightgrey;
+    border-radius: 5px;
+    border: 1px solid lightslategrey;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.submit {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.input label {
+    font-weight: bold;
+}
+
+.input input,textarea{
+    background-color: white;
+    border: 1px solid lightslategrey;
+    border-radius: 5px;
+}
+
+
