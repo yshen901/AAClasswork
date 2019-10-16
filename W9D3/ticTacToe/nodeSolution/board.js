@@ -13,6 +13,10 @@ class Board {
     return (this.grid[pos[0]][pos[1]] === null);
   }
 
+  getMark(pos)  {
+    return this.grid[pos[0]][pos[1]];
+  }
+
   isOver() {
     if (this.winner() != null) {
       return true;
