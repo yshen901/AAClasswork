@@ -46,11 +46,19 @@ h3 {
     font-family: sans-serif;
 }
 
+.x:after, .o:after {
+    /* display: block;
+    width: 100%;*/
+    font-size: 60px;
+    line-height: 80px;
+}
+
 .ttt-square:hover{
     background-color: yellow;
     cursor: pointer;
 }
 
+/* Use classes as toggles, add a gameover class to toggle this behavior */
 .gameover .ttt-square {
     pointer-events: none;
 }
@@ -68,6 +76,7 @@ h3 {
 }
 
 
+/* Also use classes to design simple logic */
 .winner-x .x, .winner-o .o {
     background-color: green;
     color: white;
