@@ -5,7 +5,8 @@ import { logout } from '../../actions/session_actions'
 
 const mapStateToProps = (state) => {
   let currentUserId = state.session.id;
-  if (currentUserId !== null)
+  // debugger
+  if (currentUserId)
     return {currentUser: state.entities.users[currentUserId]};
   else
     return {currentUser: null}
@@ -13,7 +14,7 @@ const mapStateToProps = (state) => {
 
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logout) //CALLBACK
+  logout: () => dispatch(logout()) //CALLBACK
 });
 
 export default connect(

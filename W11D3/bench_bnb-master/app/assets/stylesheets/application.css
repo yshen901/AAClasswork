@@ -13,3 +13,24 @@
  *= require_tree .
  *= require_self
  */
+
+ .app, #root, body {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .greeting {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+ }
+
+ #map-container {
+   width: 500px;
+   height: 500px;
+   border: 1px solid black;
+   border-radius: 5px;
+   background: lightgray;
+ }

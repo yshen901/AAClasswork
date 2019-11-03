@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom'
 
 export default class Greeting extends Component {
   render() {
+    // debugger
     if(this.props.currentUser)
       return (
         <div className="greeting">
-          <p>{welcomeMessage}</p>
-          <button onClick={()=>this.props.logout()}>Logout</button>
+          <p>Hello {this.props.currentUser.username}, welcome back!</p>
+          <button onClick={() => this.props.logout()}>Logout</button>
         </div>
       )
     else
       return (
         <div className="greeting">
-          <Link to="/api/users">Sign Up</Link>
+          <Link to="/signup">Sign Up</Link>
           <br/>
-          <Link to="/api/session_index">Sign In</Link>
+          <Link to="/login">Sign In</Link>
         </div>
       )
   }

@@ -1,6 +1,6 @@
 # post request: $.ajax({method: "POST", url: "/api/session", data: {user:{username: 'asdf', password: "asdfasdf"}}}).then(()=> console.log("yay"));
 # USE SINGULAR?!
-class Api::SessionController < ApplicationController
+class Api::SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create 
